@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect
 from django.http import HttpRequest
 from django.contrib import messages
 from .forms import UserRegisterForm
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import logout
 
 def register(request: HttpRequest):
     if request.method == "GET":
@@ -16,3 +18,12 @@ def register(request: HttpRequest):
     else:
         messages.warning(request, 'The form you submitted was invalid. Please try again.')
         return redirect('register')
+    
+@login_required
+def user_logout(request):
+    logout(request)
+    return render(request, 'auth_app/logout.html')
+
+# Create log out view
+# Create Home Page View
+# Create Product model
