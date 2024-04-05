@@ -16,14 +16,11 @@ def register(request: HttpRequest):
         messages.success(request, f'Account created for {username}!')
         return redirect('login')
     else:
-        messages.warning(request, 'The form you submitted was invalid. Please try again.')
-        return redirect('register')
+        for key, value in form.error_messages.items():
+            messages.warning(request, f'{(key.replace("_", " ")).capitalize()}: {value}')
+            return redirect('register')
     
 @login_required
 def user_logout(request):
     logout(request)
     return render(request, 'auth_app/logout.html')
-
-# Create log out view
-# Create Home Page View
-# Create Product model
