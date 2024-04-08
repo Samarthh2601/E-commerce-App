@@ -1,17 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpRequest
-
-CATEGORIES = (
-    "Cars",
-    "Phones",
-    "Laptops",
-    "Electronics", 
-    "Furniture", 
-    "Clothing", 
-    "Books", 
-    "Appliances"
-)
+from django.conf import settings
 
 def home(request: HttpRequest):
-    # return render(request, 'ecomm_app/home.html')
-    return render(request, 'ecomm_app/base.html', {'title': 'Home', 'categories': CATEGORIES})
+    return render(request, 'ecomm_app/home.html', {'title': 'Home', 'categories': settings.CATEGORIES})

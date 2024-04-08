@@ -1,2 +1,5 @@
 db.sqlite3
 __pycache__/
+todo
+media/
+ecomm_secrets.py
