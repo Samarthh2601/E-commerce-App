@@ -17,7 +17,7 @@ def register(request: HttpRequest):
     form = UserSignUpForm(request.POST, request.FILES)
     if form.is_valid():
         data = form.cleaned_data
-        print(form.cleaned_data)
+
         User.objects.create_user(username=data['username'], email=data['email'], password=data['password1'])
         
         Profile.objects.create(user=User.objects.get(username=data['username']), phone_number=data['phone_number'], address=data['address'], city=data['city'], state=data['state'], zip_code=data['zip_code'], profile_picture=data['profile_picture'])
