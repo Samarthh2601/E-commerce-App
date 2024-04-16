@@ -6,13 +6,14 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 from django.contrib.auth.models import User
 from .models import Profile
+from django.conf import settings
 
 
 def register(request: HttpRequest):
     if request.user.is_authenticated:
         logout(request)
     if request.method == "GET":
-        return render(request, 'auth_app/register.html', {'form': UserSignUpForm()})
+        return render(request, 'auth_app/register.html', {'form': UserSignUpForm(), 'title': 'Register user', 'categories': settings.CATEGORIES})
 
     form = UserSignUpForm(request.POST, request.FILES)
     if form.is_valid():
@@ -32,7 +33,7 @@ def register(request: HttpRequest):
 @login_required
 def profile(request):
     if request.method == "GET":
-        return render(request, 'auth_app/profile.html', {'form': ProfileUpdateForm(instance=request.user.profile), 'user_form': UserUpdateForm(instance=request.user)})
+        return render(request, 'auth_app/profile.html', {'form': ProfileUpdateForm(instance=request.user.profile), 'user_form': UserUpdateForm(instance=request.user), 'title': 'Profile', 'categories': settings.CATEGORIES})
     
     form = ProfileUpdateForm(request.POST, request.FILES, instance=request.user.profile)
     user_form = UserUpdateForm(request.POST, instance=request.user)
@@ -49,4 +50,4 @@ def profile(request):
 @login_required
 def user_logout(request):
     logout(request)
-    return render(request, 'auth_app/logout.html')
+    return render(request, 'auth_app/logout.html', {'title': 'Logout', 'categories': settings.CATEGORIES})

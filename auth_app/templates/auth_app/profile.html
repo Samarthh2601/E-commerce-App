@@ -20,7 +20,7 @@
                     {% endif %}
                     <li class="list-group-item"><strong>Username:</strong> {{ user.username }}</li>
                     
-                    <form method="POST" enctype='multipart/form-data'>
+                    <form enctype="multipart/form-data" method="POST">
                         {% csrf_token %}
                         {{ user_form|crispy }}
                         {{ form|crispy }}
