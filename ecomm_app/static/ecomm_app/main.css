@@ -116,3 +116,21 @@ height: 5%;
   width: 50%;
   flex: 1;
 }
+
+.product-image {
+  flex: 1;
+  padding-right: 50px;
+}
+
+.product-detail {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10%;
+  margin-top: 20px;
+  padding-top: 3%;
+}
+
+.product-text {
+  flex: 1;
+}

@@ -1,0 +1,29 @@
+{% extends 'ecomm_app/base.html' %}
+
+{% block content %}
+
+<body>
+    <div class="container">
+      
+      <div class="items">
+        {% for product in products %}
+          <div class="item">
+            <div class="image-container">
+              <img src="{{ product.image.url }}" alt="{{ product.name }}">
+            </div>
+            <div class="item-info">
+              <h2 class="item-title">{{ product.name }}</h2>
+              <p class="item-price">${{ product.price }}</p>
+              <p class="item-description">{{ product.description }}</p>
+              <p class="item-seller">Seller: {{ product.seller }}</p>
+              <button class="btn">Buy Now</button>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+      
+  
+  
+    </div>
+
+{% endblock content %}

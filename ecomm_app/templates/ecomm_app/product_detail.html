@@ -1,0 +1,44 @@
+{% extends 'ecomm_app/base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="row g-0 product-detail">
+        <div class="col-md-6 product-image">
+          <img src="{{ product.image.url }}" class="img-fluid rounded-start" alt="{{ product.name }}">
+        </div>
+        <div class="col-md-6 product-text">
+          <div class="card-body">
+            <h2 class="card-title">{{ product.name }}</h2>
+            <p class="card-text">{{ product.description }}</p>
+            <p class="card-text"><small class="text-muted">Sold by: {{ product.seller }}</small></p>
+            <p class="card-text">Price: ${{ product.price }}</p>
+            <p class="card-text">Stock: {{ product.stock }}</p>
+            <form id="addToCartForm" method="POST" action="{% url 'add_to_wishlist' %}">
+              {% csrf_token %}
+              <input type="hidden" name="product_id" value="{{ product.id }}">
+              <button type="submit" class="btn btn-primary">Add to Wishlist</button>
+            </form>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+
+
+<!-- <div class="container">
+    <div class="row product-detail">
+        <div class="col-md-6 product-detail-img">
+            <img src="{{ product.image.url }}" alt="{{ product.name }}" class="img-fluid">
+        </div>
+        <div class="col-md-6 product-text">
+            <h1>{{ product.name }}</h1>
+            <p>{{ product.description }}</p>
+            <p>{{ product.price }} USD</p>
+            <p>{{ product.seller }}</p>
+        </div>
+    </div>
+</div> -->

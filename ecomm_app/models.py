@@ -17,3 +17,35 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
+
+class Wishlist(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    products = models.CharField(max_length=175, default=None)
+    created_at = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return self.user.username
+    
+    @staticmethod
+    def save_product(user: User, product_key: int):
+        obj = Wishlist.objects.filter(user=user)
+        if not obj.exists():
+            Wishlist(user=user, products=str(product_key) + ',').save()
+        else:
+            obj = obj.first()
+            obj.products += str(product_key) + ','
+        obj.save()
+    
+    @staticmethod
+    def get_wishlist_products(user: User, obj=False) -> bool | list | list[Product]:
+        objects = Wishlist.objects.filter(user=user)
+
+        if not objects.exists():
+            return False
+        sp = objects.first().products.split(',')[:-1]
+
+        if obj is False:
+            return sp
+
+        ls = [Product.objects.filter(id=key).first() for key in sp]
+        return ls
