@@ -75,3 +75,6 @@ def my_products(request: HttpRequest):
 def bought_products(request: HttpRequest):
     products = Inventory.get_products(request.user, obj=True)
     return render(request, 'ecomm_app/product_list.html', {'title': 'My Products', 'products': products, 'categories': settings.CATEGORIES})
+
+def category_page(request: HttpRequest, category: str):
+    return render(request, 'ecomm_app/product_list.html', {'title': f'{category.capitalize()} Category', 'categories': settings.CATEGORIES, 'products': Product.objects.filter(category=category.capitalize())})
