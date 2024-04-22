@@ -1,29 +1,9 @@
-{% extends 'ecomm_app/base.html' %}
+{% extends 'ecomm_app/product_list.html' %}
 
-{% block content %}
-
-<body>
-    <div class="container">
-      
-      <div class="items">
-        {% for product in products %}
-          <div class="item">
-            <div class="image-container">
-              <img src="{{ product.image.url }}" alt="{{ product.name }}">
-            </div>
-            <div class="item-info">
-              <h2 class="item-title">{{ product.name }}</h2>
-              <p class="item-price">${{ product.price }}</p>
-              <p class="item-description">{{ product.description }}</p>
-              <p class="item-seller">Seller: {{ product.seller }}</p>
-              <button class="btn">Buy Now</button>
-            </div>
-          </div>
-        {% endfor %}
-      </div>
-      
-  
-  
-    </div>
-
-{% endblock content %}
+{% block product_ext %}
+<form id="BuyNowForm" method="POST" action="{% url 'remove_from_wishlist' %}">
+    {% csrf_token %}
+    <input type="hidden" name="product_id" value="{{ product.id }}">
+    <button type="submit" class="btn btn-danger" style="margin-top: 10px;">Remove from Wishlist</button>
+  </form>
+{% endblock product_ext %}

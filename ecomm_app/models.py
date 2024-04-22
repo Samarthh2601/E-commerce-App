@@ -17,35 +17,68 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
-
-class Wishlist(models.Model):
+    
+class Inventory(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    products = models.CharField(max_length=175, default=None)
+    products = models.CharField(max_length=175, null=True)
+    bought_products = models.CharField(max_length=1000, null=True)
     created_at = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
         return self.user.username
     
     @staticmethod
-    def save_product(user: User, product_key: int):
-        obj = Wishlist.objects.filter(user=user)
+    def save_product(user: User, product_key: int, *, wishlist=False) -> bool:
+        obj = Inventory.objects.filter(user=user)
+        if wishlist is True:
+            if not obj.exists():
+                Inventory(user=user, products=str(product_key) + ',').save()
+            else:
+                obj = obj.first()
+                obj.products += str(product_key) + ','
+                obj.save()
+            return True
+        
         if not obj.exists():
-            Wishlist(user=user, products=str(product_key) + ',').save()
+            Inventory(user=user, bought_products=str(product_key) + ',').save()
         else:
             obj = obj.first()
-            obj.products += str(product_key) + ','
-        obj.save()
-    
+            if obj.bought_products is None:
+                obj.bought_products = str(product_key) + ','
+            else: obj.bought_products += str(product_key) + ','
+            obj.save()
+        return True
+
     @staticmethod
-    def get_wishlist_products(user: User, obj=False) -> bool | list | list[Product]:
-        objects = Wishlist.objects.filter(user=user)
+    def get_products(user: User, obj=False, *, wishlist=False) -> bool | list | list[Product]:
+        objects = Inventory.objects.filter(user=user)
 
         if not objects.exists():
             return False
-        sp = objects.first().products.split(',')[:-1]
+        if wishlist is True:
+            field = objects.first().products
+        else:
+            field = objects.first().bought_products
+        if field is None:
+            return False
+        sp = field.split(',')[:-1]
 
         if obj is False:
             return sp
 
         ls = [Product.objects.filter(id=key).first() for key in sp]
         return ls
+    
+    @staticmethod
+    def remove_product(user: User, product_key: int) -> bool:
+        obj = Inventory.objects.filter(user=user)
+        if obj.exists():
+            obj = obj.first()
+            products = obj.products.split(',')
+            if str(product_key) in products:
+                products.remove(str(product_key))
+                obj.products = ','.join(products)
+                obj.save()
+                return True
+        else:
+            return False
