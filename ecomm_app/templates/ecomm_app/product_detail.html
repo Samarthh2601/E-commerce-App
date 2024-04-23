@@ -15,12 +15,9 @@
             <p class="card-text">Price: ${{ product.price }}</p>
             <p class="card-text">Stock: {{ product.stock }}</p>
             <h2>Seller Information</h2>
-            <p class="card-text"><small class="text-muted">Sold by: {{ product.seller }}</small></p>
+            <p class="card-text"><small class="text-muted">Sold by: <a  style="text-decoration: none;" href='{% url "seller_info" seller.pk %}'>{{ seller.username }}</a></small></p>
             <p class="item-seller">Email: {{ product.seller.email }}</p>
-            <p class="item-seller">Phone: {{ product.seller.profile.phone_number }}</p>
             <p class="item-seller">City: {{ product.seller.profile.city }}</p>
-            <p class="item-seller">State: {{ product.seller.profile.state }}</p>
-            <p class="item-seller">Zip Code: {{ product.seller.profile.zip_code }}</p>
             <form id="addToCartForm" method="POST" action="{% url 'add_to_wishlist' %}">
               {% csrf_token %}
               <input type="hidden" name="product_id" value="{{ product.id }}">
@@ -31,11 +28,19 @@
               <input type="hidden" name="product_id" value="{{ product.id }}">
               <button type="submit" class="btn btn-primary" style="margin-top: 10px;" >Buy Now</button>
             </form>
+            {% if product.seller == user %}
+            <form id="UpdateProduct" method="GET" action="{% url 'update_product' product.id %}">
+              {% csrf_token %}
+              <input type="hidden" name="product_id" value="{{ product.id }}">
+              <button type="submit" class="btn btn-dark" style="margin-top: 10px;" >Update Product</button>
+            </form>
+            {% endif %}
           </div>
       </div>
     </div>
   </div>
 </div>
+
 {% endblock %}
 
 

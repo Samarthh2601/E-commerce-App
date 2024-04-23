@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'auth_app.apps.AuthAppConfig',
     'crispy_forms',
     'crispy_bootstrap5',
+    'django_fastdev',
 ]
 
 MIDDLEWARE = [

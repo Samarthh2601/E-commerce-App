@@ -43,7 +43,6 @@ def profile(request):
         messages.success(request, f'Account updated!')
         return redirect('profile')
     else:
-        print(form.errors)
         messages.warning(request, form.errors)
         return redirect('profile')
 

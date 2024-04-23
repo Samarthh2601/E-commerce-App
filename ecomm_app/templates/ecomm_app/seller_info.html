@@ -1,0 +1,40 @@
+{% extends 'ecomm_app/base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <div class="card">
+                <div class="card-body">
+                    <div class="text-center">
+                        <img src="{{ seller.profile.profile_picture.url }}" class="img-fluid rounded-circle" alt="Profile Picture">
+                    </div>
+                    <h4 class="text-center mt-3">{{ seller.username }}</h4>
+                    <ul class="list-group mt-4">
+                        <li class="list-group-item">
+                            <i class="bi bi-telephone-fill me-2"></i>
+                            Phone Number: <span class="text-muted">{{ seller.profile.phone_number }}</span>
+                        </li>
+                        <li class="list-group-item">
+                            <i class="bi bi-envelope-fill me-2"></i>
+                            Email: <span class="text-muted">{{ seller.email }}</span>
+                        </li>
+                        <li class="list-group-item">
+                            <i class="bi bi-geo-alt-fill me-2"></i>
+                            Zip Code: <span class="text-muted">{{ seller.profile.zip_code }}</span>
+                        </li>
+                        <li class="list-group-item">
+                            <i class="bi bi-geo-alt-fill me-2"></i>
+                            State: <span class="text-muted">{{ seller.profile.state }}</span>
+                        </li>
+                        <li class="list-group-item">
+                            <i class="bi bi-geo-alt-fill me-2"></i>
+                            City: <span class="text-muted">{{ seller.profile.city }}</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
