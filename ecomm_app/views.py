@@ -65,8 +65,10 @@ def bought_products(request: HttpRequest):
 def buy_now(request: HttpRequest):
     if request.method == "POST":
         product_id = request.POST.get('product_id')
-        print(product_id)
         product = Product.objects.get(id=product_id)
+        if product.seller == request.user:
+            messages.warning(request, 'You cannot buy your own product!')
+            return redirect('home')
         if product.stock > 0:
             product.stock -= 1
             product.save()
@@ -80,6 +82,18 @@ def buy_now(request: HttpRequest):
 def category_page(request: HttpRequest, category: str):
     return render(request, 'ecomm_app/product_list.html', {'title': f'{category.capitalize()} Category', 'categories': settings.CATEGORIES, 'products': Product.objects.filter(category=category.capitalize())})
 
+
+@login_required
+def remove_listed_product(request: HttpRequest):
+    if request.method == "POST":
+        product_id = request.POST.get('product_id')
+        product = Product.objects.get(id=product_id)
+        if product.seller != request.user:
+            messages.warning(request, 'You are not authorized to delete this product!')
+            return redirect('home')
+        product.delete()
+        messages.success(request, 'Product deleted successfully!')
+        return redirect('my_products')
 
 # <---------------------------------- Seller ---------------------------------->
 

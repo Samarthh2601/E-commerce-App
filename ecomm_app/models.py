@@ -20,7 +20,7 @@ class Product(models.Model):
     
 class Inventory(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    products = models.CharField(max_length=175, null=True)
+    wishlist_products = models.CharField(max_length=175, null=True)
     bought_products = models.CharField(max_length=1000, null=True)
     created_at = models.DateTimeField(default=timezone.now)
 
@@ -32,10 +32,10 @@ class Inventory(models.Model):
         obj = Inventory.objects.filter(user=user)
         if wishlist is True:
             if not obj.exists():
-                Inventory(user=user, products=str(product_key) + ',').save()
+                Inventory(user=user, wishlist_products=str(product_key) + ',').save()
             else:
                 obj = obj.first()
-                obj.products += str(product_key) + ','
+                obj.wishlist_products += str(product_key) + ','
                 obj.save()
             return True
         
@@ -56,7 +56,7 @@ class Inventory(models.Model):
         if not objects.exists():
             return False
         if wishlist is True:
-            field = objects.first().products
+            field = objects.first().wishlist_products
         else:
             field = objects.first().bought_products
         if field is None:
@@ -74,10 +74,10 @@ class Inventory(models.Model):
         obj = Inventory.objects.filter(user=user)
         if obj.exists():
             obj = obj.first()
-            products = obj.products.split(',')
+            products = obj.wishlist_products.split(',')
             if str(product_key) in products:
                 products.remove(str(product_key))
-                obj.products = ','.join(products)
+                obj.wishlist_products = ','.join(products)
                 obj.save()
                 return True
         else:
