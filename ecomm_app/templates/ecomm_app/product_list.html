@@ -16,6 +16,7 @@
               <h2 class="item-title">{{ product.name }}</h2>
               <p class="item-price">${{ product.price }}</p>
               <p class="item-description">{{ product.description }}</p>
+              <p class="item-age">Product Age: {{ product.age }}</p>
               <p class="item-seller">Name: {{ product.seller }}</p>
               <button class="btn btn-primary"><a href="{% url 'product_detail' product.pk %}" class="btn-text">View</a></button>
               {% block product_ext %}{% endblock product_ext %}

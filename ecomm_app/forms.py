@@ -9,9 +9,10 @@ class AddUpdateProduct(forms.ModelForm):
     price = forms.DecimalField(max_digits=10, decimal_places=2)
     description = forms.CharField(max_length=500)
     stock = forms.IntegerField()
+    age = forms.IntegerField(min_value=0)
     available = forms.BooleanField(initial=True)
     category = forms.ChoiceField(choices=settings.CATEGORY_CHOICES)
 
     class Meta:
         model = Product
-        fields = ['name', 'image', 'price', 'description', 'stock', 'available', 'category']
+        fields = ['name', 'image', 'price', 'description', 'stock', 'age', 'available', 'category']

@@ -6,9 +6,11 @@
         <div class="col-md-6 offset-md-3">
             <div class="card">
                 <div class="card-body">
-                    <div class="text-center">
-                        <img src="{{ seller.profile.profile_picture.url }}" class="img-fluid rounded-circle" alt="Profile Picture">
-                    </div>
+                    {% if seller.profile.profile_picture %}
+                        <div class="text-center">
+                            <img src="{{ seller.profile.profile_picture.url }}" class="img-fluid rounded-circle" alt="Profile Picture">
+                        </div>
+                    {% endif %}
                     <h4 class="text-center mt-3">{{ seller.username }}</h4>
                     <ul class="list-group mt-4">
                         <li class="list-group-item">

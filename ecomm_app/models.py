@@ -13,6 +13,7 @@ class Product(models.Model):
     available = models.BooleanField(default=True)
     created_at = models.DateTimeField(default=timezone.now)
     category = models.CharField(max_length=100, choices=settings.CATEGORY_CHOICES, default='General')
+    age = models.IntegerField(default=0)
     seller = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
 
     def __str__(self):

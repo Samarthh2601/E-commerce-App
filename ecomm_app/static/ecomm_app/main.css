@@ -62,6 +62,11 @@ font-size: 16px;
 color: #777;
 }
 
+.item-seller {
+  text-decoration: none;
+  color: black;
+}
+
 .btn {
 display: inline-block;
 color: #fff;
